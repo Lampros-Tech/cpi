@@ -46,12 +46,12 @@ const fetcher = (url: string) =>
 
 const LineGraph: React.FC = () => {
   const { data: dailyData, error: dailyError } = useSWR<CPIData[]>(
-    "/home_hhi_cpi.json",
+    "/home_hhi_cpi2.json",
     fetcher
   );
   
   const { data: movingAverageData, error: movingAverageError } = useSWR<MovingAverageData[]>(
-    "/average_hhi_cpi.json",
+    "/average_hhi_cpi2.json",
     fetcher
   );
 
@@ -131,12 +131,12 @@ const LineGraph: React.FC = () => {
 
     // Adding Event Annotations (as before)
     const events = [
-      {
-        name: "RPGF Round 2",
-        startDate: "01-06-2022",
-        endDate: "30-03-2023",
-        color: "rgba(255,0,0,0.7)",
-      },
+      // {
+      //   name: "RPGF Round 2",
+      //   startDate: "01-06-2022",
+      //   endDate: "30-03-2023",
+      //   color: "rgba(255,0,0,0.7)",
+      // },
       {
         name: "RPGF Round 3",
         startDate: "31-03-2023",
