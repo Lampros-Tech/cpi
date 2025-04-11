@@ -7,13 +7,12 @@ const HeaderImage = () => {
     return (
         <div className="absolute z-20 top-0 right-0 w-[40%] md:w-[40%] flex justify-end items-center">
             <Image
-                src={'/assets/images/test.png'}
-                // fill={true}
+                src={'/assets/images/test.webp'}
                 width={455}
                 height={421}
                 alt="Hero background"
-                quality={100}
-                className=''
+                quality={80}
+                className='w-full h-auto'
                 priority={true}
                 placeholder='empty'
             // placeholder="blur"
