@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { ChartData, ChartOptions } from "chart.js";
+import { ChartOptions } from "chart.js";
 import "chartjs-adapter-date-fns";
 import { parse, format } from "date-fns";
 import useSWR from "swr";
