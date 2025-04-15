@@ -5,9 +5,9 @@ import NewDAOModal from "../ui/NewDAOModal";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 
-const Experience = dynamic(() => import("../ui/Experiment"), {
-  ssr: false,
-});
+// const Experience = dynamic(() => import("../ui/Experiment"), {
+//   ssr: false,
+// });
 
 const AddYourDAO: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,8 +37,30 @@ const AddYourDAO: React.FC = () => {
         </button>
       </div>
 
-      {/* <Image src={"/assets/images/img2.png"} fill={true} className="absolute object-cover" alt="background image" /> */}
-      <Experience />
+      <video
+        className="absolute w-auto h-full !max-w-none z-0 pointer-events-none"
+        autoPlay
+        loop
+        muted
+        playsInline
+        controls={false}
+        preload="metadata"
+        aria-placeholder="blur"
+      >
+        <source src="/assets/images/video.mp4" type="video/mp4" />
+        <Image
+          src="/assets/images/video-fallback.png" 
+          alt="Static background image" 
+          fill 
+          className="absolute w-auto h-full !max-w-none"
+          priority={false}
+          loading="lazy"
+          quality={75} 
+        />
+        Your browser does not support the video tag.
+      </video>
+      {/* <Image src={"/assets/images/video-fallback.png"} fill={true} className="absolute !w-auto h-full mx-auto !max-w-none aspect-square" alt="background image" /> */}
+      {/* <Experience /> */}
       {isOpen && <NewDAOModal closeModal={closeModal} />}
     </div>
   );

@@ -296,3 +296,7 @@ body::-webkit-scrollbar-thumb {
 .popup textarea {
   border: 1px solid #ffffff3d;
 }
+
+#controller{
+  opacity: 0 !important;
+}
