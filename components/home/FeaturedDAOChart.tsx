@@ -1,7 +1,4 @@
-// import CPIChartForOP from "../common/CPIChartForOp";
 import dynamic from "next/dynamic";
-// import CPIChartofDAOs from "../common/CPIChartofDAOs";
-// import LineGraph from "../common/LineGraph";
 
 const CPIChartofDAOs = dynamic(() => import('../common/CPIChartofDAOs'), { ssr: false });
 const LineGraph = dynamic(() => import('../common/LineGraph'), { ssr: false });

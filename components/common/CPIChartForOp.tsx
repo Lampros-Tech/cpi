@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import {
     ChartOptions,
 } from 'chart.js';
-import 'chartjs-adapter-date-fns';
+// import 'chartjs-adapter-date-fns';
 import ChartWrapper from './ChartWrapper';
 
 // ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, annotationPlugin);

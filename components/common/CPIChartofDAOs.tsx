@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import {
     ChartOptions,
 } from 'chart.js';
-import 'tailwindcss/tailwind.css';
+// import 'tailwindcss/tailwind.css';
 // import dynamic from 'next/dynamic';
 import ChartWrapper from './ChartWrapper';
 

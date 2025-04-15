@@ -101,7 +101,7 @@ body {
 }
 .button-50[aria-label="simulate"] {
   background: white;
-  background-color: #2FFF6A;
+  background-color: #2fff6a;
   color: black;
   height: max-content;
   text-transform: capitalize;
@@ -297,6 +297,12 @@ body::-webkit-scrollbar-thumb {
   border: 1px solid #ffffff3d;
 }
 
-#controller{
+#controller {
   opacity: 0 !important;
+}
+
+/* In globals.css - WARNING: Hacky and might break */
+div.vsc-controller {
+  display: none !important;
+  visibility: hidden !important;
 }

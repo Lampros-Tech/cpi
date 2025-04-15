@@ -1,7 +1,6 @@
 
 import React from 'react';
 import Image from 'next/image';
-import Button from '@/components/ui/Button';
 import hero2 from "@/public/assets/images/hero2.png";
 import arrow from "@/public/assets/images/pixelarticons_arrow-up.png";
 import cb1 from "@/public/assets/images/mask_grp_1.svg";

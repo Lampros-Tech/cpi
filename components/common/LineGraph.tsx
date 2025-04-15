@@ -1,27 +1,14 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { ChartData, ChartOptions } from "chart.js";
 import "chartjs-adapter-date-fns";
-import annotationPlugin from "chartjs-plugin-annotation";
 import { parse, format } from "date-fns";
 import useSWR from "swr";
 import ChartWrapper from "./ChartWrapper";
 
-// Define types for Event and Annotation
-interface Event {
-  name: string;
-  startDate: string;
-  color: string;
-}
-
 interface Annotation {
   [key: string]: any;
-}
-
-// Extend ChartData to include annotations
-interface CustomChartData extends ChartData<"line"> {
-  annotations?: Annotation;
 }
 
 // Define the shape of the CPI Data

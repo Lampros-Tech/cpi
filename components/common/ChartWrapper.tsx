@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, LineElement, PointElement, TimeScale } from 'chart.js'
 import annotationPlugin from 'chartjs-plugin-annotation';
+
 // Dynamically import chart components with SSR disabled
 const DynamicBar = dynamic(
     () => import('react-chartjs-2').then(mod => mod.Bar),
