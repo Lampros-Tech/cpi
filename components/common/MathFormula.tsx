@@ -1,20 +1,10 @@
-// components/MathFormula.tsx
-import React from 'react';
-import katex from 'katex';
+import { InlineMath } from 'react-katex';
 
-interface MathFormulaProps {
-    formula: string;
-    displayMode?: boolean;
-    className?: string;
+export default function HomePage() {
+    const formula = String.raw`\sum_{i \in D} V_{i}^2 \quad \text{where} \quad V_{i} = \sum_{j \in \text{HCC}} (V_{j} * I_{j})`;  
+  return (
+    <div>
+      <InlineMath math={formula} />
+    </div>
+  );
 }
-
-const MathFormula: React.FC<MathFormulaProps> = ({ formula, displayMode = false, className }) => {
-    const html = katex.renderToString(formula, {
-        throwOnError: false,
-        displayMode: displayMode,
-    });
-
-    return <div className={className} dangerouslySetInnerHTML={{ __html: html }} />;
-};
-
-export default MathFormula;
