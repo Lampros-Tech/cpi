@@ -3,7 +3,8 @@ import { Red_Hat_Display } from "next/font/google";
 import localFont from "next/font/local";
 import "react-loading-skeleton/dist/skeleton.css";
 import "react-tooltip/dist/react-tooltip.css";
-import "katex/dist/katex.min.css";
+// import "katex/dist/katex.min.css";
+import "./katex.css"
 import "./globals.css";
 
 // const katex_main = localFont({
