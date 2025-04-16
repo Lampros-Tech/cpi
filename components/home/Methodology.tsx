@@ -9,7 +9,6 @@ import Image from "next/image";
 
 
 const Methodology: React.FC = () => {
-
     return <div className="pt-20 bg-dark-gray">
         <div className="container mx-auto px-6 bg-dark-gray">
             <div className="font-mori font-semibold text-white text-4xl md:text-5xl mb-8">
