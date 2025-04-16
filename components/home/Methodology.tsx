@@ -17,7 +17,7 @@ const Methodology: React.FC = () => {
             <div className=" font-mori font-normal text-xl">
                 <span>CPI formula for Optimism Collective:</span>
                 <div className="text-[#957BFF] text-[1.5rem] md:text-[2.2rem] lg:text-[3rem] my-20">
-                    <MathFormula formula="\sum_{i \ \in \ D} V_{i} \ ^2 \quad{ where } \ V_{i} = \sum_{j \ \in \ HCC} (V_{j} * I_{j})" displayMode={false} />
+                    <MathFormula/>
                 </div>
             </div>
 
