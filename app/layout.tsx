@@ -7,42 +7,6 @@ import "react-tooltip/dist/react-tooltip.css";
 import "./katex.css"
 import "./globals.css";
 
-// const katex_main = localFont({
-//   src: [
-//     {
-//       path: "../public/fonts/katex/KaTeX_Main-Regular.woff2",
-//       weight: "400",
-//       style: "normal",
-//     },
-//   ],
-//   display: "swap",
-//   variable: "--font-katex-main",
-// });
-
-// const katex_math = localFont({
-//   src: [
-//     {
-//       path: "../public/fonts/katex/KaTeX_Math-Italic.woff2",
-//       weight: "400",
-//       style: "italic",
-//     },
-//   ],
-//   display: "swap",
-//   variable: "--font-katex-math",
-// });
-
-// const katex_size1 = localFont({
-//   src: [
-//     {
-//       path: "../public/fonts/katex/KaTeX_Size1-Regular.woff2",
-//       weight: "400",
-//       style: "normal",
-//     },
-//   ],
-//   display: "swap",
-//   variable: "--font-katex-size1",
-// });
-
 const red_hat_display = Red_Hat_Display({
   weight: ["400", "600"],
   subsets: ["latin"],
@@ -80,6 +44,29 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+       <head>
+        <link
+          rel="preload"
+          href="/fonts/katex/KaTeX_Main-Regular.woff2" 
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/katex/KaTeX_Math-Italic.woff2" 
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/katex/KaTeX_Size1-Regular.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className={`${red_hat_display.variable} ${pp_mori.variable}`}>
         {children}
       </body>
