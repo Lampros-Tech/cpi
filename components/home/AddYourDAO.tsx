@@ -3,7 +3,7 @@ import Image from "next/image";
 import img from "@/public/assets/images/plus_icon.png";
 import NewDAOModal from "../ui/NewDAOModal";
 import { useState } from "react";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 
 // const Experience = dynamic(() => import("../ui/Experiment"), {
 //   ssr: false,
@@ -47,15 +47,16 @@ const AddYourDAO: React.FC = () => {
         preload="metadata"
         aria-placeholder="blur"
       >
+        <source src="/assets/images/video.webm" type="video/mp4" />
         <source src="/assets/images/video.mp4" type="video/mp4" />
         <Image
-          src="/assets/images/video-fallback.png" 
-          alt="Static background image" 
-          fill 
+          src="/assets/images/video-fallback.png"
+          alt="Static background image"
+          fill
           className="absolute w-auto h-full !max-w-none"
           priority={false}
           loading="lazy"
-          quality={75} 
+          quality={75}
         />
         Your browser does not support the video tag.
       </video>

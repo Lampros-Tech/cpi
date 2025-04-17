@@ -66,6 +66,20 @@ export default function RootLayout({
           type="font/woff2"
           crossOrigin="anonymous"
         />
+        <link
+          rel="preload"
+          href="./fonts/PPMori-Regular.woff2" 
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="./fonts/PPMori-SemiBold.woff2" 
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className={`${red_hat_display.variable} ${pp_mori.variable}`}>
         {children}
