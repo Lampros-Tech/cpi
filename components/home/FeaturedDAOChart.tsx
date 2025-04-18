@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import LazyLoadChart from "../common/LazyLoadChart";
 
 const CPIChartofDAOs = dynamic(() => import('../common/CPIChartofDAOs'), { ssr: false });
 const LineGraph = dynamic(() => import('../common/LineGraph'), { ssr: false });
@@ -6,9 +7,15 @@ const CPIChartForOP = dynamic(() => import('../common/CPIChartForOp'), { ssr: fa
 
 const FeaturedDAOChart: React.FC = () => {
     return <>
-        <CPIChartofDAOs />
-        <LineGraph />
-        <CPIChartForOP />
+        <LazyLoadChart placeholderHeight="400px"> {/* Adjust height */}
+            <CPIChartofDAOs />
+        </LazyLoadChart>
+        <LazyLoadChart placeholderHeight="600px"> {/* Adjust height */}
+            <LineGraph />
+        </LazyLoadChart>
+        <LazyLoadChart placeholderHeight="400px"> {/* Adjust height */}
+            <CPIChartForOP />
+        </LazyLoadChart>
     </>
 }
 
