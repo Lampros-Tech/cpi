@@ -46,6 +46,7 @@ const AddYourDAO: React.FC = () => {
         controls={false}
         preload="metadata"
         aria-placeholder="blur"
+        poster="/assets/images/video-fallback.png" 
       >
         <source src="/assets/images/video.webm" type="video/mp4" />
         <source src="/assets/images/video.mp4" type="video/mp4" />
