@@ -46,12 +46,12 @@ const AddYourDAO: React.FC = () => {
         controls={false}
         preload="metadata"
         aria-placeholder="blur"
-        poster="/assets/images/video-fallback.png" 
+        poster="/assets/images/video-fallback.webp" 
       >
-        <source src="/assets/images/video.webm" type="video/mp4" />
-        <source src="/assets/images/video.mp4" type="video/mp4" />
+        <source src="/assets/images/video2.webm" type="video/mp4" />
+        <source src="/assets/images/video2.mp4" type="video/mp4" />
         <Image
-          src="/assets/images/video-fallback.png"
+          src="/assets/images/video-fallback.webp"
           alt="Static background image"
           fill
           className="absolute w-auto h-full !max-w-none"

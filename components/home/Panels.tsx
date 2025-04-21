@@ -46,7 +46,7 @@ const Panels: React.FC = () => {
     return (
         <div ref={component} className="relative w-full bg-black">
             {/* Horizontal scroll container */}
-            <div ref={slider} className="flex  min-h-[500px] h-screen overflow-hidden">
+            <div ref={slider} className="flex min-h-[500px] h-screen overflow-hidden">
                 <div className="panel min-w-[100vw] h-screen p-10 md:p-20 flex flex-col justify-center">
                     <div className="container  mx-auto">
                         <div className="p-5 mb-8 bg-custom-green rounded-xl w-max">

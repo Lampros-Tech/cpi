@@ -7,13 +7,13 @@ const CPIChartForOP = dynamic(() => import('../common/CPIChartForOp'), { ssr: fa
 
 const FeaturedDAOChart: React.FC = () => {
     return <>
-        <LazyLoadChart placeholderHeight="400px"> {/* Adjust height */}
+        <LazyLoadChart placeholderHeight="800px"> {/* Adjust height */}
             <CPIChartofDAOs />
         </LazyLoadChart>
-        <LazyLoadChart placeholderHeight="600px"> {/* Adjust height */}
+        <LazyLoadChart placeholderHeight="800px"> {/* Adjust height */}
             <LineGraph />
         </LazyLoadChart>
-        <LazyLoadChart placeholderHeight="400px"> {/* Adjust height */}
+        <LazyLoadChart placeholderHeight="800px"> {/* Adjust height */}
             <CPIChartForOP />
         </LazyLoadChart>
     </>

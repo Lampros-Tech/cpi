@@ -33,24 +33,22 @@ export default function Home() {
   return (
     // <SmoothScrolling>
     <main className="flex min-h-screen flex-col items-center">
-      <div className="w-[100%] overflow-x-hidden">
-        <HomeHeader />
-        <section aria-label="Introduction and Methodology">
-          <HeroSection />
-          <AddPercentage />
-          <WhatIsCPI />
-          <Methodology />
-        </section>
-        <section aria-label="Data Analysis">
-          <FeaturedDAOChart />
-          <ExpertAnalysis />
-          <Panels />
-        </section>
-        <Resources />
-        <AddYourDAO />
-        <Footer />
+    <div className="w-[100%] overflow-x-hidden">
+      <HomeHeader />
+      <HeroSection />
+      <AddPercentage />
+      <WhatIsCPI />
+      <Methodology />
+      <FeaturedDAOChart />
+      <ExpertAnalysis />
+      <div>
+        <Panels />
       </div>
-    </main>
+      <Resources />
+      <AddYourDAO />
+      <Footer />
+    </div>
+  </main>
     // </SmoothScrolling>
   );
 }
