@@ -273,7 +273,7 @@ const LineGraph: React.FC = () => {
     [chartData]
   );
 
-  if (dailyError || movingAverageError) return <div>Error loading data...</div>;
+  if (dailyError || movingAverageError) return <p>Error loading data...</p>;
 
   return (
     <div className="container mx-auto flex flex-col items-center justify-center p-3 rounded-lg shadow-md w-full my-10 pb-10">

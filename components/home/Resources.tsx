@@ -56,10 +56,10 @@ const Resources: React.FC = () => {
                     {resources.map((resource, index) => (
                         <div key={index} className="bg-transparent border border-[#777777] overflow-hidden shadow rounded-xl">
                             <div className="p-6 h-full flex flex-col justify-between ">
-                                <div>
+                                <>
                                     <h3 className={`font-mori font-semibold text-[1.5rem] text-[${resource.color}]`}>{resource.title}</h3>
                                     <p className="font-mori font-normal text-[#FFFCE1] text-xl tracking-tight my-4">{resource.description}</p>
-                                </div>
+                                </>
                                 {/* <Link
                                     href={resource.accessUrl}
                                     className="max-w-max mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

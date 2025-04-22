@@ -48,7 +48,7 @@ const AddYourDAO: React.FC = () => {
         aria-placeholder="blur"
         poster="/assets/images/video-fallback.webp" 
       >
-        <source src="/assets/images/video2.webm" type="video/mp4" />
+        <source src="/assets/images/video.webm" type="video/mp4" />
         <source src="/assets/images/video.mp4" type="video/mp4" />
         <Image
           src="/assets/images/video-fallback.webp"

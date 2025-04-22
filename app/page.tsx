@@ -41,9 +41,9 @@ export default function Home() {
       <Methodology />
       <FeaturedDAOChart />
       <ExpertAnalysis />
-      <div>
+      <>
         <Panels />
-      </div>
+      </>
       <Resources />
       <AddYourDAO />
       <Footer />

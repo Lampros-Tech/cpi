@@ -34,8 +34,8 @@ const DynamicKatex: React.FC<DynamicKatexProps> = ({
 export default function HomePage() {
   const formula = String.raw`\sum_{i \in D} V_{i}^2 \quad \text{where} \quad V_{i} = \sum_{j \in \text{HCC}} (V_{j} * I_{j})`;
   return (
-    <div>
+    <>
       <DynamicKatex math={formula} displayMode="inline" />
-    </div>
+    </>
   );
 }
