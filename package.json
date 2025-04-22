@@ -12,6 +12,7 @@
   "dependencies": {
     "@gsap/react": "^2.1.1",
     "@studio-freight/react-lenis": "^0.0.47",
+    "@types/react-window": "^1.8.8",
     "animejs": "^3.2.2",
     "chart.js": "^4.4.4",
     "chartjs-adapter-date-fns": "^3.0.0",
@@ -33,6 +34,8 @@
     "react-katex": "^3.0.1",
     "react-loading-skeleton": "^3.4.0",
     "react-tooltip": "^5.28.0",
+    "react-virtualized-auto-sizer": "^1.0.26",
+    "react-window": "^1.8.11",
     "swr": "^2.2.5",
     "usehooks-ts": "^3.1.0"
   },

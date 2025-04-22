@@ -1,48 +1,61 @@
-
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import hero2 from "@/public/assets/images/hero2.png";
 import arrow from "@/public/assets/images/pixelarticons_arrow-up.png";
 import cb1 from "@/public/assets/images/mask_grp_1.svg";
-import Link from 'next/link';
 
 const HeroSection: React.FC = () => {
     return (
         <section className="relative bg-dark-gray text-white pb-24">
-            <div className='lg:hidden container mx-auto pt-20 w-[85%] md:px-auto flex flex-col'>
-                <div className='font-mori font-semibold text-4xl md:text-7xl relative z-30 text-[#FFFCE1]' >
-                    <div>Concentration of</div>
-                    <div className='font-mori font-semibold text-4xl md:text-7xl'>
+            <div className='container mx-auto pt-20 lg:hidden'>
+                <h1 className='font-mori font-semibold text-4xl md:text-7xl text-[#FFFCE1] relative z-30'>
+                    Concentration of{' '}
+                    <span className="whitespace-nowrap">
                         P
-                        <Image src={hero2} alt='icon' className='inline w-[3rem] md:w-[5rem]' />
+                        <Image 
+                            src={hero2} 
+                            alt='icon' 
+                            className='inline w-[3rem] md:w-[5rem]'
+                            width={80}
+                            height={80}
+                        />
                         wer Index
-                    </div>
-                    <div className='font-mori font-semibold text-4xl md:text-7xl'> in DAOs</div>
-                    <Link className='button-50 heroarrowbtn max-w-max justify-center items-center font-redhat font-semibold text-2xl my-8' href="/explore/optimism" target="_blank">
-                        <span className='ml-4 drop-shadow-custom' >Explore Index</span>
-                        <Image
-                            src={arrow}
-                            alt='arrow icon'
-                            className='inline border border-white rounded-full bg-[#FF0E00] p-3'
-                            width={50}
-                            height={50}
-                        />
-                    </Link>
-                    <div className='relative block flex justify-center items-center text-center w-[100%] md:w-[80%] my-12 h-full' >
-                        <Image
-                            src={cb1}
-                            alt="curly bracket"
-                            className='absolute inline rotate-180 left-[-40px] max-h-full'
-                            priority
-                        />
-                        <p className='font-normal text-xl md:text-xl text-white max-w-[80%] break-word tracking-normal leading-8'>Tracking and analyzing the distribution of influence within decentralized governance structures</p>
-                        <Image
-                            src={cb1}
-                            alt="curly bracket"
-                            className='absolute inline right-[-40px] max-h-full'
-                            priority
-                        />
-                    </div>
+                    </span>
+                    {' '}in DAOs
+                </h1>
+                
+                <Link 
+                    className='button-50 heroarrowbtn inline-flex items-center font-redhat font-semibold text-2xl my-8' 
+                    href="/explore/optimism" 
+                    target="_blank"
+                >
+                    <span className='ml-4 drop-shadow-custom'>Explore Index</span>
+                    <Image
+                        src={arrow}
+                        alt='arrow icon'
+                        className='border border-white rounded-full bg-[#FF0E00] p-3'
+                        width={50}
+                        height={50}
+                    />
+                </Link>
+
+                <div className='relative flex items-center justify-center text-center mt-12'>
+                    <Image
+                        src={cb1}
+                        alt="left bracket"
+                        className='absolute -left-10 rotate-180'
+                        priority
+                    />
+                    <p className='text-xl leading-8 max-w-[80%]'>
+                        Tracking and analyzing the distribution of influence within decentralized governance structures
+                    </p>
+                    <Image
+                        src={cb1}
+                        alt="right bracket"
+                        className='absolute -right-10'
+                        priority
+                    />
                 </div>
             </div>
             <div className="hidden lg:block container mx-auto pt-10 w-[85%] md:px-auto flex flex-col">

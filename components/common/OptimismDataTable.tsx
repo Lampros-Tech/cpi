@@ -1,9 +1,9 @@
 "use client";
 
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ApiResponse, DelegateData } from "@/types";
 import { formatNumber } from "@/lib/utils/formatNumber";
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import AvatarGenerator from "../ui/AvatarGenerator";
 import { truncateAddress } from "@/lib/utils/truncateAddress";
@@ -20,6 +20,8 @@ export interface InitialDataProps {
   iconURL: string;
 }
 
+const ROW_HEIGHT = 50;
+
 const OptimismDataTable: React.FC<InitialDataProps> = ({
   initialData,
   member,
@@ -31,6 +33,8 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
   const [sort, setSort] = useState<string>("voting_power");
   const [isAsc, setIsAsc] = useState<boolean>(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [visibleRange, setVisibleRange] = useState({ start: 0, end: 20 });
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const ITEMS_PER_PAGE = 20;
 
@@ -48,62 +52,7 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
     setPage(newPage);
   };
 
-  const tableRef = useRef<HTMLTableElement | null>(null);
-
-  //   const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-  //   const fetchMoreData = useCallback(
-  //     async (page: number) => {
-  //       if (loading || isFirstRender) return;
-  //       // Scroll to the top of the table after data is fetched
-  //       if (tableRef.current) {
-  //         tableRef.current.scrollTo({ behavior: "smooth" });
-  //       }
-  //       setLoading(true);
-
-  //       try {
-  //         console.log(
-  //           `${API_URL}/${platform}?page=${page}&sort=${sort}&isAsc=${isAsc}&search=${search}`
-  //         );
-  //         const res = await fetch(
-  //           `${API_URL}/${platform}?page=${page}&sort=${sort}&isAsc=${isAsc}&search=${search}`
-  //         );
-  //         const json: ApiResponse = await res.json();
-  //         console.log(json);
-  //         setData(json.data);
-  //         setHasMore(json.data.length > 0);
-  //       } catch (error) {
-  //         console.error("Error fetching data:", error);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     },
-  //     [page, loading, sort, isAsc]
-  //   );
-
-  //   useEffect(() => {
-  //     console.log("useEffect called");
-  //     if (!isFirstRender) {
-  //       console.log("inside if condition in useEffect");
-  //       fetchMoreData(page); // Fetch data when page, sort, isAsc, or search changes
-  //     }
-  //     // Set isFirstRender to false after the initial render
-  //     setIsFirstRender(false);
-  //   }, [page, isFirstRender, sort, isAsc]);
-
-  //   const handleNextPage = () => {
-  //     setPage((prevPage) => prevPage + 1);
-  //   };
-
-  //   const handlePreviousPage = () => {
-  //     if (page > 1) {
-  //       setPage((prevPage) => prevPage - 1);
-  //     }
-  //   };
-
-  //   const handlePageChange = (newPage: number) => {
-  //     setPage(newPage);
-  //   };
+  const tableRef = useRef<HTMLDivElement>(null);
 
   const handleSortChange = (value: string) => {
     setSort(value);
@@ -112,6 +61,96 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
   const handleSortOrderChange = () => {
     setIsAsc((prev) => !prev);
   };
+
+  useEffect(() => {
+    const options = {
+      root: containerRef.current,
+      rootMargin: '100px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const index = Number(entry.target.getAttribute('data-index'));
+          const newStart = Math.max(0, index - 10);
+          const newEnd = Math.min(paginatedData.length, index + 20);
+          setVisibleRange({ start: newStart, end: newEnd });
+        }
+      });
+    }, options);
+
+    const container = containerRef.current;
+    if (container) {
+      container.querySelectorAll('.row-marker').forEach(el => observer.observe(el));
+    }
+
+    return () => observer.disconnect();
+  }, [paginatedData.length]);
+
+  const Row = ({ index, item }: { index: number; item: any }) => (
+    <div className="flex flex-row gap-2 text-black font-mori text-sm md:text-base py-4 px-4 border-b border-gray-200">
+      <div className="flex justify-start items-center basis-1/5 min-w-[50px]">
+        {index + 1}
+      </div>
+      <div
+        className="basis-1/2 flex items-center gap-1 min-w-[100px]"
+        data-tooltip-id="my-tooltip"
+        data-tooltip-content={
+          item.ens_name === null ? item.delegate : item.ens_name
+        }
+        data-tooltip-place="bottom"
+      >
+        <AvatarGenerator address={item.delegate || ""} />
+        <span className="truncate font-semibold max-w-xs text-xs lg:text-[15px]">
+          {item.ens_name === null
+            ? truncateAddress(item.delegate || "")
+            : item.ens_name}
+        </span>
+        <button
+          onClick={() => {
+            if (item.delegate) {
+              navigator.clipboard.writeText(item.delegate);
+              setCopiedIndex(index);
+
+              // Remove the "Copied!" text after 2 seconds
+              setTimeout(() => {
+                setCopiedIndex(null);
+              }, 800);
+            }
+          }}
+          className="ml-2 text-black hover:opacity-100 opacity-50 relative"
+          title="Copy Delegate Address"
+        >
+          <MdContentCopy />
+          {copiedIndex === index && (
+            <span className="absolute top-[-5px] left-[400%] transform -translate-x-1/2 bg-transparent text-blue-700 text-xs px-2 py-1 rounded border border-blue-700">
+              Copied!
+            </span>
+          )}
+        </button>
+      </div>
+      <Tooltip id="my-tooltip" />
+      {platform === "optimism" ? (
+        <div className="basis-1/2 flex flex-row justify-center items-center min-w-[100px]">
+          <div className="flex flex-row gap-0 items-center justify-center">
+            <MembershipBadges item={item} />
+          </div>
+        </div>
+      ) : null}
+      <div className="basis-1/2 flex flex-row justify-center items-center flex-wrap min-w-[140px]">
+        <span className="flex flex-col items-center justify-center text-xs lg:text-sm">
+          {formatNumber(parseInt(item.voting_power))}
+          <span className="font-semibold ">
+            {"(" + Number(item.th_vp).toFixed(2) + "%)"}
+          </span>
+        </span>
+      </div>
+      <div className="basis-1/2 flex items-center justify-center font-bold min-w-[120px]">
+        {Number(item.influence).toFixed(5)}
+      </div>
+    </div>
+  );
 
   return (
     <div className="flex flex-col justify-center items-center m-auto bg-white rounded-[20px]">
@@ -136,171 +175,28 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
         </span>
       </div>
 
-      <div
-        className="max-h-[650px] overflow-y-auto w-full custom-scrollbar border-b"
-        ref={tableRef}
-      >
-        <div
-          className={`${
-            platform === "optimism" ? "min-w-[550px]" : "min-w-[450px]"
-          } flex flex-row gap-2 bg-[#f0f0f0] text-black font-mori font-semibold text-sm md:text-[16px] leading-normal sticky top-0 z-[100] py-4 px-4`}
-        >
-          <div className="flex justify-start items-center basis-1/5 min-w-[50px] ">
+      <div className="w-full border rounded-lg shadow-sm" ref={containerRef}>
+        {/* Header */}
+        <div className="flex flex-row gap-2 bg-[#f0f0f0] text-black font-mori font-semibold text-sm md:text-base py-4 px-4 border-b">
+          <div className="flex justify-start items-center basis-1/5 min-w-[50px]">
             #
           </div>
-          <div className="flex items-center justify-start basis-1/2 min-w-[100px] ">
+          <div className="flex items-center justify-start basis-1/2 min-w-[100px]">
             Delegate
           </div>
-          {platform === "optimism" ? (
+          {platform === "optimism" && (
             <div className="flex justify-center items-center basis-1/2 min-w-[100px]">
               Member
             </div>
-          ) : null}
-          <div className="flex justify-center items-center basis-1/2 min-w-[140px]">
-            {platform === "optimism" ? (
-              <div className="flex justify-center py-2 max-w-[140px] min-w-[140px] border border-[#a3a3a3] rounded-full">
-                <span>Voting Power</span>
-                <button
-                  type="button"
-                  aria-label="asc"
-                  className="ml-1"
-                  onClick={() => {
-                    handleSortChange("voting_power");
-                    handleSortOrderChange();
-                  }}
-                >
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    stroke-width="0"
-                    viewBox="0 0 320 512"
-                    aria-hidden="true"
-                    focusable="false"
-                    height="1em"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    {sort !== "voting_power" ? (
-                      <path d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41zm255-105L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z"></path>
-                    ) : isAsc ? (
-                      <path d="M279 224H41c-21.4 0-32.1-25.9-17-41L143 64c9.4-9.4 24.6-9.4 33.9 0l119 119c15.2 15.1 4.5 41-16.9 41z"></path>
-                    ) : (
-                      <path d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z"></path>
-                    )}
-                  </svg>
-                </button>
-              </div>
-            ) : (
-              <div className="flex justify-center py-2 max-w-[140px] min-w-[140px]">
-                <span>Voting Power</span>
-              </div>
-            )}
-          </div>
-          <div className="flex justify-center items-center basis-1/2 min-w-[120px] ">
-            <div className="flex justify-center py-2 max-w-[120px] min-w-[120px] border border-[#a3a3a3] rounded-full">
-              <span>Influence</span>
-              <button
-                type="button"
-                aria-label="asc"
-                className="ml-1"
-                onClick={() => {
-                  handleSortChange("mHHi");
-                  handleSortOrderChange();
-                }}
-              >
-                <svg
-                  stroke="currentColor"
-                  fill="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 320 512"
-                  aria-hidden="true"
-                  focusable="false"
-                  height="1em"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {sort !== "mHHi" ? (
-                    <path d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41zm255-105L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z"></path>
-                  ) : isAsc ? (
-                    <path d="M279 224H41c-21.4 0-32.1-25.9-17-41L143 64c9.4-9.4 24.6-9.4 33.9 0l119 119c15.2 15.1 4.5 41-16.9 41z"></path>
-                  ) : (
-                    <path d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z"></path>
-                  )}
-                </svg>
-              </button>
-            </div>
-          </div>
+          )}
         </div>
-        <div
-          className={`${
-            platform === "optimism" ? "min-w-[550px]" : "min-w-[450px]"
-          } divide-y md:text-sm text-xs text-black font-mori font-normal`}
-        >
-          {paginatedData.map((item, index) => (
-            <div
-              key={index}
-              className="flex flex-row gap-2 py-3 px-4 hover:bg-gray-50 transition-colors duration-200"
-            >
-              <div className="basis-1/5 flex items-center min-w-[50px]">
-                {(page - 1) * ITEMS_PER_PAGE + index + 1}
-              </div>
-              <div
-                className="basis-1/2 flex items-center gap-1 min-w-[100px]"
-                data-tooltip-id="my-tooltip"
-                data-tooltip-content={
-                  item.ens_name === null ? item.delegate : item.ens_name
-                }
-                data-tooltip-place="bottom"
-              >
-                <AvatarGenerator address={item.delegate || ""} />
-                <span className="truncate font-semibold max-w-xs text-xs lg:text-[15px]">
-                  {item.ens_name === null
-                    ? truncateAddress(item.delegate || "")
-                    : item.ens_name}
-                </span>
-                <button
-                  onClick={() => {
-                    if (item.delegate) {
-                      navigator.clipboard.writeText(item.delegate);
-                      setCopiedIndex(index);
 
-                      // Remove the "Copied!" text after 2 seconds
-                      setTimeout(() => {
-                        setCopiedIndex(null);
-                      }, 800);
-                    }
-                  }}
-                  className="ml-2 text-black hover:opacity-100 opacity-50 relative"
-                  title="Copy Delegate Address"
-                >
-                  <MdContentCopy />
-                  {copiedIndex === index && (
-                    <span className="absolute top-[-5px] left-[400%] transform -translate-x-1/2 bg-transparent text-blue-700 text-xs px-2 py-1 rounded border border-blue-700">
-                      Copied!
-                    </span>
-                  )}
-                </button>
-              </div>
-              <Tooltip id="my-tooltip" />
-              {platform === "optimism" ? (
-                <div className="basis-1/2 flex flex-row justify-center items-center min-w-[100px]">
-                  <div className="flex flex-row gap-0 items-center justify-center">
-                    <MembershipBadges item={item} />
-                  </div>
-                </div>
-              ) : null}
-              <div className="basis-1/2 flex flex-row justify-center items-center flex-wrap min-w-[140px]">
-                <span className="flex flex-col items-center justify-center text-xs lg:text-sm">
-                  {formatNumber(parseInt(item.voting_power))}
-                  <span className="font-semibold ">
-                    {"(" + Number(item.th_vp).toFixed(2) + "%)"}
-                  </span>
-                </span>
-              </div>
-              <div className="basis-1/2 flex items-center justify-center font-bold min-w-[120px]">
-                {Number(item.influence).toFixed(5)}
-              </div>
-            </div>
+        <div className="h-[650px] overflow-auto">
+          {paginatedData.slice(visibleRange.start, visibleRange.end).map((item, idx) => (
+            <React.Fragment key={idx + visibleRange.start}>
+              <div className="row-marker" data-index={idx + visibleRange.start} />
+              <Row index={idx + visibleRange.start} item={item} />
+            </React.Fragment>
           ))}
         </div>
       </div>
