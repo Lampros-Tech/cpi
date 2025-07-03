@@ -21,7 +21,7 @@ const AddYourDAO: React.FC = () => {
           Got a DAO? Let's Track It!
         </h1>
         <button
-          className="mt-8 flex flex-row button-50 justify-center items-center font-redhat font-semibold text-xl mr-8"
+          className="hover:scale-[1.03] mt-8 flex flex-row button-50 justify-center items-center font-redhat font-semibold text-xl mr-8"
           aria-label="add-your-dao"
           onClick={openModal}
         >
@@ -30,8 +30,8 @@ const AddYourDAO: React.FC = () => {
             src={img}
             alt="arrow icon"
             className="rounded-full bg-[#957BFF] p-1"
-            width={30}
-            height={30}
+            width={40}
+            height={40}
             loading="lazy"
           />
         </button>

@@ -5,7 +5,7 @@ import hero1 from "@/public/assets/images/hero1-1.png";
 
 const HeaderImage = () => {
     return (
-        <div className="absolute z-20 top-0 right-0 w-[40%] md:w-[40%] flex justify-end items-center">
+        <div className="absolute z-20 top-0 right-0 w-[40%] md:w-[30%] flex justify-end items-center">
             <Image
                 src={'/assets/images/test.webp'}
                 width={455}

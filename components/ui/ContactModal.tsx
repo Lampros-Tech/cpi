@@ -111,7 +111,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ closeModal }) => {
                         <button
                             type="submit"
                             aria-label="contact-us"
-                            className="button-50 max-w-max self-center px-10 py-1 font-redhat font-semibold"
+                            className="hover:scale-[1.03] button-50 max-w-max self-center px-10 py-1 font-redhat font-semibold"
                             disabled={loading}
                         >
                             {loading ? 'Sending...' : 'Send'}

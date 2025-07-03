@@ -54,11 +54,11 @@ const NewsLetterSignUp: React.FC = () => {
                 placeholder="your@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="ml-2 max-w-[80%] bg-transparent text-[1.8rem] font-mori font-semibold text-white placeholder-[#333333] focus:outline-none flex-grow"
+                className="px-2 ml-2 max-w-[80%] bg-transparent text-[25px] font-mori font-semibold text-white placeholder-[#333333] focus:outline-none flex-grow"
             />
             <button
                 type="submit"
-                className="bg-[#262626] text-white p-2 rounded-full ml-4"
+                className="hover:scale-[1.1] bg-[#262626] text-white p-2 rounded-full ml-2"
                 disabled={loading}>
 
                 {loading ? <svg

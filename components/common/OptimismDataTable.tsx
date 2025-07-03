@@ -31,14 +31,39 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
   const [sort, setSort] = useState<string>("voting_power");
   const [isAsc, setIsAsc] = useState<boolean>(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [hasSorted, setHasSorted] = useState(false);
 
   const ITEMS_PER_PAGE = 20;
 
   // Memoized calculations for pagination and data
+  const sortedData = useMemo(() => {
+    if (!hasSorted) return initialData;
+    const dataCopy = [...initialData];
+    dataCopy.sort((a, b) => {
+      let aValue = a[sort as keyof DelegateData] ?? '';
+      let bValue = b[sort as keyof DelegateData] ?? '';
+      // Numeric sort for voting_power and influence
+      if (sort === 'voting_power' || sort === 'influence') {
+        const aNum = Number(aValue);
+        const bNum = Number(bValue);
+        if (isNaN(aNum) || isNaN(bNum)) return 0;
+        return isAsc ? aNum - bNum : bNum - aNum;
+      }
+      // Default string sort for other columns
+      aValue = aValue.toString();
+      bValue = bValue.toString();
+      if (aValue < bValue) return isAsc ? -1 : 1;
+      if (aValue > bValue) return isAsc ? 1 : -1;
+      return 0;
+    });
+    return dataCopy;
+  }, [initialData, sort, isAsc, hasSorted]);
+
   const paginatedData = useMemo(() => {
     const startIndex = (page - 1) * ITEMS_PER_PAGE;
-    return initialData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  }, [initialData, page]);
+    const dataToUse = hasSorted ? sortedData : initialData;
+    return dataToUse.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [initialData, sortedData, page, hasSorted]);
 
   const totalPages = useMemo(() => {
     return Math.ceil(initialData.length / ITEMS_PER_PAGE);
@@ -107,10 +132,12 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
 
   const handleSortChange = (value: string) => {
     setSort(value);
+    setHasSorted(true);
   };
 
   const handleSortOrderChange = () => {
     setIsAsc((prev) => !prev);
+    setHasSorted(true);
   };
 
   return (
@@ -204,7 +231,7 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
                 aria-label="asc"
                 className="ml-1"
                 onClick={() => {
-                  handleSortChange("mHHi");
+                  handleSortChange("influence");
                   handleSortOrderChange();
                 }}
               >
@@ -219,7 +246,7 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
                   width="1em"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  {sort !== "mHHi" ? (
+                  {sort !== "influence" ? (
                     <path d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41zm255-105L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z"></path>
                   ) : isAsc ? (
                     <path d="M279 224H41c-21.4 0-32.1-25.9-17-41L143 64c9.4-9.4 24.6-9.4 33.9 0l119 119c15.2 15.1 4.5 41-16.9 41z"></path>
@@ -313,7 +340,7 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
       </div>
       <div className="font-mori font-normal text-xs text-gray-500 self-end p-4">
         Last updated on:-{" "}
-        <span className="text-black ml-1">30 November, 2024</span>
+        <span className="text-black ml-1">23 June, 2025</span>
       </div>
     </div>
   );

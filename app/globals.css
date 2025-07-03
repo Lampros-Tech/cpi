@@ -281,6 +281,15 @@ body::-webkit-scrollbar-thumb {
   text-decoration: underline;
 }
 
+.social-link.docs:hover svg path,
+.social-link.docs:hover svg,
+.social-link.docs:hover {
+  stroke: #b4b10a;
+  color: #b4b10a;
+  border-color: #b4b10a;
+  text-decoration: underline;
+}
+
 .popup {
   background: rgba(0, 0, 0, 0.562);
   -webkit-backdrop-filter: blur(20px);

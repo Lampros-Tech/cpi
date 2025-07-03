@@ -3,6 +3,7 @@ import Image from "next/image";
 import bg from "@/public/assets/images/influencebg.png";
 import Link from "next/link";
 import { LuChevronRight } from "react-icons/lu";
+import arrow from "@/public/assets/images/pixelarticons_arrow-up.png";
 
 interface ProgressRingProps {
   percentage: number;
@@ -16,7 +17,12 @@ const ProgressRing: React.FC<ProgressRingProps> = ({ percentage }) => {
   const offset = circumference - (percentage / 100) * circumference;
 
   return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="mt-1">
+    <svg
+      width={size}
+      height={size}
+      viewBox={`0 0 ${size} ${size}`}
+      className="mt-1"
+    >
       <circle
         cx={size / 2}
         cy={size / 2}
@@ -59,7 +65,7 @@ const AddPercentage: React.FC = () => {
           Personalize HCC Influence and Visualize CPI Trends
         </h1>
 
-        <div className="flex flex-col md:flex-row gap-6 w-full my-8">
+        <div className="flex flex-col md:flex-row gap-6 w-full my-8 mt-20">
           {/* Box 1 */}
           <div className="group relative flex-1 min-w-0">
             <div className="relative  backdrop-blur-md rounded-2xl p-6 border border-[#FEC5FB] h-full transition-colors duration-100">
@@ -120,15 +126,19 @@ const AddPercentage: React.FC = () => {
           </div>
         </div>
 
-        <Link href="https://optimism.daocpi.com/" target="_blank">
-          <button
-            className="mt-6 flex flex-row button-50 justify-center items-center font-redhat font-semibold text-xl"
-            aria-label="add-percentage"
-          >
-            <span className="ml-4 pr-2 drop-shadow-custom">
-              Start Simulation
-            </span>
-          </button>
+        <Link
+          className="button-50 !bg-[#957bff] heroarrowbtn inline-flex items-center font-redhat font-semibold text-2xl my-8 hover:scale-[1.01]"
+          href="https://optimism.daocpi.com/"
+          target="_blank"
+        >
+          <span className="ml-4 drop-shadow-custom">Start Simulation</span>
+          <Image
+            src={arrow}
+            alt="arrow icon"
+            className="border border-white rounded-full bg-[#6d53d4] p-3"
+            width={50}
+            height={50}
+          />
         </Link>
       </div>
     </div>

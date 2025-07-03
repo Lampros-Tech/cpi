@@ -33,12 +33,12 @@ const fetcher = (url: string) =>
 
 const LineGraph: React.FC = () => {
   const { data: dailyData, error: dailyError } = useSWR<CPIData[]>(
-    "/home_hhi_cpi2.json",
+    "/daily_hhi_and_cpi.json",
     fetcher
   );
   
   const { data: movingAverageData, error: movingAverageError } = useSWR<MovingAverageData[]>(
-    "/average_hhi_cpi2.json",
+    "/daily_hhi_and_cpi_ma.json",
     fetcher
   );
 
@@ -118,12 +118,12 @@ const LineGraph: React.FC = () => {
 
     // Adding Event Annotations (as before)
     const events = [
-      // {
-      //   name: "RPGF Round 2",
-      //   startDate: "01-06-2022",
-      //   endDate: "30-03-2023",
-      //   color: "rgba(255,0,0,0.7)",
-      // },
+      {
+        name: "RPGF Round 2",
+        startDate: "26-05-2022",
+        endDate: "30-03-2023",
+        color: "rgba(255,0,0,0.7)",
+      },
       {
         name: "RPGF Round 3",
         startDate: "31-03-2023",
@@ -145,6 +145,12 @@ const LineGraph: React.FC = () => {
       {
         name: "RPGF Round 6",
         startDate: "22-10-2024",
+        endDate: "12-12-2024",
+        color: "rgba(255,0,0,0.7)",
+      },
+      {
+        name: "RPGF Round 7",
+        startDate: "13-12-2024",
         endDate: "00-00-0000",
         color: "rgba(255,0,0,0.7)",
       },
@@ -169,10 +175,16 @@ const LineGraph: React.FC = () => {
       {
         name: "Season 6",
         startDate: "27-06-2024",
+        endDate: "15-01-2025",
+        color: "rgba(128,0,128,0.7)",
+      },
+      {
+        name: "Season 7",
+        startDate: "16-01-2025",
         endDate: "00-00-0000",
         color: "rgba(128,0,128,0.7)",
       },
-    ];
+    ];    
 
     const annotations: Annotation = {};
 
@@ -194,19 +206,19 @@ const LineGraph: React.FC = () => {
         yValue: yPosition,
         content: event.name,
         font: {
-          size: 10,
+          size: 9,
           weight: "bold",
         },
         color: event.color,
         textAlign: "center",
-        xAdjust: isRPGF ? 8 : 10,
+        xAdjust: isRPGF ? 30 : 10,
         yAdjust: isRPGF ? -20 : 20,
         backgroundColor: "white", // Add white background
         padding: {
           top: 4,
           bottom: 4,
-          left: 6,
-          right: 6,
+          left: 2,
+          right: 2,
         },
         borderRadius: 4,
         textOverflow: "clip",
