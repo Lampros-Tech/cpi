@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Tooltip } from "react-tooltip";
 import { DelegateData } from "@/types";
@@ -154,6 +154,8 @@ const MembershipBadges: React.FC<{ item: DelegateData }> = ({ item }) => {
   const activeBadges = badges.filter(
     (badge) => item[badge.key as keyof DelegateData] === 1  );
 
+  const [isHovered, setIsHovered] = useState(false);
+
   if (activeBadges.length === 0) {
     return <div className="text-center">-</div>;
   }
@@ -163,16 +165,16 @@ const MembershipBadges: React.FC<{ item: DelegateData }> = ({ item }) => {
       {activeBadges.map((badge, index) => (
         <Image
           key={badge.key}
-          className={`border border-black rounded-full z-[${
-            badge.zIndex
-          }] cursor-pointer ${index !== 0 ? "-ml-7" : ""} hover:border-2 hover:z-[200]`}
+          className={`border border-black rounded-full z-[${badge.zIndex}] cursor-pointer transition-all duration-200 ${index !== 0 ? (isHovered ? "-ml-2" : "-ml-7") : ""} hover:border-2 hover:z-[200]`}
           src={badge.src}
           height={35}
           width={35}
           alt="member icon"
           data-tooltip-id="my-tooltip"
           data-tooltip-content={badge.tooltipmsg}
-          data-tooltip-place="right"
+          data-tooltip-place="top"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         />
       ))}
       <Tooltip id="my-tooltip" />

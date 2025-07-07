@@ -20,16 +20,16 @@ const CPIChartForOP: React.FC = () => {
       labels: [
         "Token House",
         "Round 2",
-        "Round 2 & Season 3",
-        "Round 3 & Season 3",
-        "Round 3 & Season 4",
-        "Round 3 & Season 5",
-        "Round 4 & Season 5",
-        "Round 4 & Season 6",
-        "Round 5 & Season 6",
-        "Round 6 & Season 6",
-        "Round 7 & Season 6",
-        "Round 7 & Season 7",
+        ["Round 2", "& Season 3"],
+        ["Round 3", "& Season 3"],
+        ["Round 3", "& Season 4"],
+        ["Round 3", "& Season 5"],
+        ["Round 4", "& Season 5"],
+        ["Round 4", "& Season 6"],
+        ["Round 5", "& Season 6"],
+        ["Round 6", "& Season 6"],
+        ["Round 7", "& Season 6"],
+        ["Round 7", "& Season 7"],
       ],
       datasets: [
         {
@@ -180,6 +180,15 @@ const CPIChartForOP: React.FC = () => {
           title: {
             display: true,
             text: "Rounds and Seasons",
+          },
+          ticks: {
+            maxRotation: 0,
+            minRotation: 0,
+            autoSkip: false,
+            font: {
+              size: 10,
+            },
+            padding: 0,
           },
         },
       },
