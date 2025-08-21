@@ -30,13 +30,17 @@ const CPIChartForOP: React.FC = () => {
         ["Round 6", "& Season 6"],
         ["Round 7", "& Season 6"],
         ["Round 7", "& Season 7"],
+        ["Round 7", "& Season 8"],
       ],
       datasets: [
         {
           label: "CPI",
+          // data: [
+          //   211.59, 95.82, 110.46, 95.98, 95.98, 67.45, 67.0, 62.47, 66.53,
+          //   65.61, 66.77, 76.23,
+          // ],
           data: [
-            211.59, 95.82, 110.46, 95.98, 95.98, 67.45, 67.0, 62.47, 66.53,
-            65.61, 66.77, 76.23,
+            261.89, 108.0, 118.34, 103.62, 103.62, 71.75, 71.3, 66.01, 69.91, 69.0, 70.08, 80.41, 94.26
           ],
           backgroundColor: [
             "#34D399",
@@ -51,6 +55,7 @@ const CPIChartForOP: React.FC = () => {
             "#FBBF24",
             "#A78BFA",
             "#4ADE80",
+            "#34D399",
           ],
           borderColor: [
             "#059669",
@@ -65,6 +70,7 @@ const CPIChartForOP: React.FC = () => {
             "#D97706",
             "#7C3AED",
             "#16A34A",
+            "#059669",
           ],
           borderWidth: 1,
         },
@@ -211,7 +217,7 @@ const CPIChartForOP: React.FC = () => {
           className="font-mori font-normal text-xs text-gray-500 text-end block pt-4"
         >
           Last updated on:-{" "}
-          <span className="text-black ml-1">23 June 2025</span>
+          <span className="text-black ml-1">19 August 2025</span>
         </time>
       </div>
     </div>

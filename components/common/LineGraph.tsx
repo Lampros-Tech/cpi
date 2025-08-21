@@ -174,7 +174,13 @@ const LineGraph: React.FC = () => {
       {
         name: "Season 7",
         startDate: "16-01-2025",
-        endDate: "00-00-0000",
+        endDate: "30-07-2025",
+        color: "rgba(128,0,128,0.7)",
+      },
+      {
+        name: "Season 8",
+        startDate: "31-07-2025",
+        endDate: "24-12-2025",
         color: "rgba(128,0,128,0.7)",
       },
     ];
@@ -199,12 +205,12 @@ const LineGraph: React.FC = () => {
         yValue: yPosition,
         content: event.name,
         font: {
-          size: 8.5,
+          size: 8,
           weight: "bold",
         },
         color: event.color,
         textAlign: "center",
-        xAdjust: isRPGF ? -10 : 10,
+        xAdjust: isRPGF ? -10 : 5,
         yAdjust: isRPGF ? -20 : 20,
         backgroundColor: "white", // Add white background
         padding: {

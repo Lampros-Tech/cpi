@@ -22,7 +22,7 @@
 //   }
 export interface DelegateData {
   delegate: string;
-  ens_name: string;
+  name: string;
   voting_power: string;
   th_vp: string;
   ch_member_r6?: Number;

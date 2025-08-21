@@ -159,7 +159,7 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
         </span>
         <span className="font-normal text-md md:text-xl font-mori">
           {/* {"(" + formatNumber(initialData.length) + " delegates)"} */}
-          (235,285 Delegates)
+          (244,604 Delegates)
         </span>
       </div>
 
@@ -275,15 +275,15 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
                 className="basis-1/2 flex items-center gap-1 min-w-[100px]"
                 data-tooltip-id="my-tooltip"
                 data-tooltip-content={
-                  item.ens_name === null ? item.delegate : item.ens_name
+                  item.name === null ? item.delegate : item.name
                 }
                 data-tooltip-place="bottom"
               >
                 <AvatarGenerator address={item.delegate || ""} />
                 <span className="truncate font-semibold max-w-xs text-xs lg:text-[15px]">
-                  {item.ens_name === null
+                  {item.name === null
                     ? truncateAddress(item.delegate || "")
-                    : item.ens_name}
+                    : item.name}
                 </span>
                 <button
                   onClick={() => {
