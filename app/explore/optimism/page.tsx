@@ -1,4 +1,3 @@
-"use client"
 // src/app/explore/optimism/page.tsx
 import OptimismDataTable from "@/components/common/OptimismDataTable";
 import Header from "@/components/layout/Header";
