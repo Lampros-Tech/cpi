@@ -8,9 +8,12 @@ import arrow from "@/public/assets/images/pixelarticons_arrow-up.svg";
 
 async function getDelegates() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/delegates?page=1&limit=100`, {
-      cache: "no-store", // Always fetch fresh data
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/delegates?page=1&limit=20`,
+      {
+        cache: "no-store", // Always fetch fresh data
+      }
+    );
 
     if (!res.ok) {
       throw new Error(`Failed to fetch delegates: ${res.statusText}`);
@@ -24,7 +27,17 @@ async function getDelegates() {
 }
 
 const OptimismPage = async () => {
-  const { data: initialDataOptimism } = await getDelegates();
+  const {
+    data: initialDataOptimism,
+    total,
+    page,
+    success,
+  } = await getDelegates();
+
+  if (!success) {
+    // Handle error UI
+    return <div>Failed to load data.</div>;
+  }
 
   return (
     <div className="bg-dark-gray">
@@ -36,12 +49,14 @@ const OptimismPage = async () => {
 
         <div className="custom-scrollbar">
           <Suspense fallback={<>Loading...</>}>
-            <OptimismDataTable
-              initialData={initialDataOptimism}
-              background="bg-optimism"
-              platform="optimism"
-              member={true}
-              iconURL="/assets/images/op_small.svg"
+            <OptimismDataTable 
+              initialData={initialDataOptimism} 
+              initialTotal={total} 
+              initialPage={1}
+              background="bg-optimism" 
+              platform="optimism" 
+              member={true} 
+              iconURL="/assets/images/op_small.svg" 
             />
           </Suspense>
         </div>
@@ -51,7 +66,9 @@ const OptimismPage = async () => {
             className="flex flex-row button-50 heroarrowbtn max-w-max justify-center items-center font-redhat font-semibold text-xl mr-8"
             href="/explore"
           >
-            <span className="ml-4 drop-shadow-custom">Other DAOs Delegates</span>
+            <span className="ml-4 drop-shadow-custom">
+              Other DAOs Delegates
+            </span>
             <Image
               src={arrow}
               alt="arrow icon"

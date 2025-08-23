@@ -64,7 +64,15 @@ const explore: React.FC<explorePageProps> = async ({ searchParams }) => {
                     <div className="custom-scrollbar">
                         <Suspense fallback={<>Loading...</>}>
                             {/* <DataTable initialData={initialDataAave} background="bg-gradient-aave" platform="aave" member={false} iconURL="/assets/images/aave_small.svg" /> */}
-                            <OptimismDataTable initialData={initialDataAave} background="bg-gradient-aave" platform="aave" member={false} iconURL="/assets/images/aave_small.svg" />
+                            <OptimismDataTable 
+                                initialData={initialDataAave} 
+                                initialTotal={initialDataAave.length} 
+                                initialPage={1}
+                                background="bg-gradient-aave" 
+                                platform="aave" 
+                                member={false} 
+                                iconURL="/assets/images/aave_small.svg" 
+                            />
 
                         </Suspense>
                     </div>
@@ -73,7 +81,15 @@ const explore: React.FC<explorePageProps> = async ({ searchParams }) => {
                     <div className="custom-scrollbar">
                         <Suspense fallback={<>Loading...</>}>
                             {/* <DataTable initialData={initialCompoundData} background="bg-compound" platform="compound" member={false} iconURL="/assets/images/compound_small.svg" /> */}
-                            <OptimismDataTable initialData={initialCompoundData} background="bg-compound" platform="compound" member={false} iconURL="/assets/images/compound_small.svg" />
+                            <OptimismDataTable 
+                                initialData={initialCompoundData} 
+                                initialTotal={initialCompoundData.length} 
+                                initialPage={1}
+                                background="bg-compound" 
+                                platform="compound" 
+                                member={false} 
+                                iconURL="/assets/images/compound_small.svg" 
+                            />
                         </Suspense>
                     </div>
                 )}
@@ -81,7 +97,15 @@ const explore: React.FC<explorePageProps> = async ({ searchParams }) => {
                     <div className="custom-scrollbar">
                         <Suspense fallback={<>Loading...</>}>
                             {/* <DataTable initialData={initialUniswapData} background="bg-uniswap" platform="uniswap" member={false} iconURL="/assets/images/uniswap_small.svg" /> */}
-                            <OptimismDataTable initialData={initialUniswapData} background="bg-uniswap" platform="uniswap" member={false} iconURL="/assets/images/uniswap_small.svg" />
+                            <OptimismDataTable 
+                                initialData={initialUniswapData} 
+                                initialTotal={initialUniswapData.length} 
+                                initialPage={1}
+                                background="bg-uniswap" 
+                                platform="uniswap" 
+                                member={false} 
+                                iconURL="/assets/images/uniswap_small.svg" 
+                            />
                         </Suspense>
                     </div>
                 )}
