@@ -1,4 +1,3 @@
-import DataTable from "@/components/common/DataTable";
 import FilterButtons from "@/components/common/FilterButtons";
 import Header from "@/components/layout/Header";
 import { getItem, getItemCompound, getItemsAave, getItemsUniswap } from "@/lib/utils/fetchDataOnServer";

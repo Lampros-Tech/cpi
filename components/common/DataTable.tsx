@@ -287,7 +287,7 @@ const DataTable: React.FC<InitialDataProps> = ({
                 className="basis-1/2 flex items-center gap-1 min-w-[100px]"
                 data-tooltip-id="my-tooltip"
                 data-tooltip-content={
-                  item.name === "" ? item.delegate : item.name
+                  item.ens_name === "" ? item.delegate : item.ens_name
                 }
                 data-tooltip-place="bottom"
               >
@@ -297,9 +297,9 @@ const DataTable: React.FC<InitialDataProps> = ({
                   <>
                     <AvatarGenerator address={item.delegate || ""} />
                     <span className="truncate font-semibold max-w-xs text-xs lg:text-[15px]">
-                      {item.name === ""
+                      {item.ens_name === ""
                         ? truncateAddress(item.delegate || "")
-                        : item.name}
+                        : item.ens_name}
                     </span>
                   </>
                 )}
