@@ -1,6 +1,6 @@
 "use client";
 
-import { DelegateData } from "@/types";
+import { ApiResponse, DelegateData } from "@/types";
 import { formatNumber } from "@/lib/utils/formatNumber";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -14,86 +14,130 @@ import { MdContentCopy } from "react-icons/md";
 
 export interface InitialDataProps {
   initialData: DelegateData[];
-  initialTotal: number;
-  initialPage: number;
   member: boolean;
   background: string;
   platform: string;
   iconURL: string;
 }
 
-const ITEMS_PER_PAGE = 20;
-
 const OptimismDataTable: React.FC<InitialDataProps> = ({
   initialData,
-  initialTotal,
-  initialPage,
   member,
   background,
   platform,
   iconURL,
 }) => {
-  const [data, setData] = useState<DelegateData[]>(initialData);
-  const [page, setPage] = useState<number>(initialPage);
-  const [totalDelegates, setTotalDelegates] = useState<number>(initialTotal);
-  const [totalPages, setTotalPages] = useState<number>(Math.ceil(initialTotal / ITEMS_PER_PAGE));
-  const [loading, setLoading] = useState<boolean>(false);
-  
+  const [page, setPage] = useState<number>(1); // Start from page 1
   const [sort, setSort] = useState<string>("voting_power");
   const [isAsc, setIsAsc] = useState<boolean>(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [hasSorted, setHasSorted] = useState(false);
 
-  const isMounted = useRef(false); // To prevent useEffect from running on initial render
-  const tableRef = useRef<HTMLTableElement | null>(null);
+  const ITEMS_PER_PAGE = 20;
 
-  useEffect(() => {
-    // We don't want to fetch on the initial render because we have `initialData`
-    if (!isMounted.current) {
-      isMounted.current = true;
-      return;
-    }
-
-    const fetchDelegates = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(`/api/delegates?page=${page}&limit=${ITEMS_PER_PAGE}&sort=${sort}&isAsc=${isAsc}`);
-        console.log(`api/delegates?page=${page}&limit=${ITEMS_PER_PAGE}&sort=${sort}&isAsc=${isAsc}`)
-        const result = await res.json();
-
-        if (result.success) {
-          setData(result.data);
-          setTotalDelegates(result.total);
-          setTotalPages(Math.ceil(result.total / ITEMS_PER_PAGE));
-        } else {
-            // Handle API error
-            console.error("Failed to fetch new data:", result.error);
-            setData([]); // Clear data on error
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-        // Scroll to top of the table after fetch
-        tableRef.current?.scrollTo(0, 0);
+  // Memoized calculations for pagination and data
+  const sortedData = useMemo(() => {
+    if (!hasSorted) return initialData;
+    const dataCopy = [...initialData];
+    dataCopy.sort((a, b) => {
+      let aValue = a[sort as keyof DelegateData] ?? '';
+      let bValue = b[sort as keyof DelegateData] ?? '';
+      // Numeric sort for voting_power and influence
+      if (sort === 'voting_power' || sort === 'influence') {
+        const aNum = Number(aValue);
+        const bNum = Number(bValue);
+        if (isNaN(aNum) || isNaN(bNum)) return 0;
+        return isAsc ? aNum - bNum : bNum - aNum;
       }
-    };
+      // Default string sort for other columns
+      aValue = aValue.toString();
+      bValue = bValue.toString();
+      if (aValue < bValue) return isAsc ? -1 : 1;
+      if (aValue > bValue) return isAsc ? 1 : -1;
+      return 0;
+    });
+    return dataCopy;
+  }, [initialData, sort, isAsc, hasSorted]);
 
-    fetchDelegates();
-  }, [page, sort, isAsc]); // Re-run effect when page or sort options change
+  const paginatedData = useMemo(() => {
+    const startIndex = (page - 1) * ITEMS_PER_PAGE;
+    const dataToUse = hasSorted ? sortedData : initialData;
+    return dataToUse.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [initialData, sortedData, page, hasSorted]);
+
+  const totalPages = useMemo(() => {
+    return Math.ceil(initialData.length / ITEMS_PER_PAGE);
+  }, [initialData]);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };
 
+  const tableRef = useRef<HTMLTableElement | null>(null);
+
+  //   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  //   const fetchMoreData = useCallback(
+  //     async (page: number) => {
+  //       if (loading || isFirstRender) return;
+  //       // Scroll to the top of the table after data is fetched
+  //       if (tableRef.current) {
+  //         tableRef.current.scrollTo({ behavior: "smooth" });
+  //       }
+  //       setLoading(true);
+
+  //       try {
+  //         console.log(
+  //           `${API_URL}/${platform}?page=${page}&sort=${sort}&isAsc=${isAsc}&search=${search}`
+  //         );
+  //         const res = await fetch(
+  //           `${API_URL}/${platform}?page=${page}&sort=${sort}&isAsc=${isAsc}&search=${search}`
+  //         );
+  //         const json: ApiResponse = await res.json();
+  //         console.log(json);
+  //         setData(json.data);
+  //         setHasMore(json.data.length > 0);
+  //       } catch (error) {
+  //         console.error("Error fetching data:", error);
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     },
+  //     [page, loading, sort, isAsc]
+  //   );
+
+  //   useEffect(() => {
+  //     console.log("useEffect called");
+  //     if (!isFirstRender) {
+  //       console.log("inside if condition in useEffect");
+  //       fetchMoreData(page); // Fetch data when page, sort, isAsc, or search changes
+  //     }
+  //     // Set isFirstRender to false after the initial render
+  //     setIsFirstRender(false);
+  //   }, [page, isFirstRender, sort, isAsc]);
+
+  //   const handleNextPage = () => {
+  //     setPage((prevPage) => prevPage + 1);
+  //   };
+
+  //   const handlePreviousPage = () => {
+  //     if (page > 1) {
+  //       setPage((prevPage) => prevPage - 1);
+  //     }
+  //   };
+
+  //   const handlePageChange = (newPage: number) => {
+  //     setPage(newPage);
+  //   };
+
   const handleSortChange = (value: string) => {
-    // If clicking the same sort button, toggle order. Otherwise, set new sort column.
-    if (sort === value) {
-      setIsAsc(prev => !prev);
-    } else {
-      setSort(value);
-      setIsAsc(false); // Default to descending on new column
-    }
-    setPage(1); // Reset to page 1 when sorting changes
+    setSort(value);
+    setHasSorted(true);
+  };
+
+  const handleSortOrderChange = () => {
+    setIsAsc((prev) => !prev);
+    setHasSorted(true);
   };
 
   return (
@@ -115,7 +159,7 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
         </span>
         <span className="font-normal text-md md:text-xl font-mori">
           {/* {"(" + formatNumber(initialData.length) + " delegates)"} */}
-          (244,604 Delegates)
+          (235,285 Delegates)
         </span>
       </div>
 
@@ -149,6 +193,7 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
                   className="ml-1"
                   onClick={() => {
                     handleSortChange("voting_power");
+                    handleSortOrderChange();
                   }}
                 >
                   <svg
@@ -187,6 +232,7 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
                 className="ml-1"
                 onClick={() => {
                   handleSortChange("influence");
+                  handleSortOrderChange();
                 }}
               >
                 <svg
@@ -217,7 +263,7 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
             platform === "optimism" ? "min-w-[550px]" : "min-w-[450px]"
           } divide-y md:text-sm text-xs text-black font-mori font-normal`}
         >
-          {data.map((item, index) => (
+          {paginatedData.map((item, index) => (
             <div
               key={index}
               className="flex flex-row gap-2 py-3 px-4 hover:bg-gray-50 transition-colors duration-200"
@@ -229,15 +275,15 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
                 className="basis-1/2 flex items-center gap-1 min-w-[100px]"
                 data-tooltip-id="my-tooltip"
                 data-tooltip-content={
-                  item.name === null ? item.delegate : item.name
+                  item.ens_name === null ? item.delegate : item.ens_name
                 }
                 data-tooltip-place="bottom"
               >
                 <AvatarGenerator address={item.delegate || ""} />
                 <span className="truncate font-semibold max-w-xs text-xs lg:text-[15px]">
-                  {item.name === null
+                  {item.ens_name === null
                     ? truncateAddress(item.delegate || "")
-                    : item.name}
+                    : item.ens_name}
                 </span>
                 <button
                   onClick={() => {
@@ -294,7 +340,7 @@ const OptimismDataTable: React.FC<InitialDataProps> = ({
       </div>
       <div className="font-mori font-normal text-xs text-gray-500 self-end p-4">
         Last updated on:-{" "}
-        <span className="text-black ml-1">23 June, 2025</span>
+        <span className="text-black ml-1">25 August, 2025</span>
       </div>
     </div>
   );
