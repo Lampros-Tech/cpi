@@ -12,7 +12,7 @@ const optimism: React.FC = async () => {
     // let initialDataOptimism = [];
     // initialDataOptimism = await getItem();
     const jsonDirectory = path.join(process.cwd(), 'public');
-    const fileContents = await fs.readFile(jsonDirectory + '/opdelegates.json', 'utf8');
+    const fileContents = await fs.readFile(jsonDirectory + '/op.json', 'utf8');
     const initialDataOptimism = JSON.parse(fileContents);
     return (
         <div className="bg-dark-gray">

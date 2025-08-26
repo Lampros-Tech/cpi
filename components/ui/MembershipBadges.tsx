@@ -72,6 +72,12 @@ const MembershipBadges: React.FC<{ item: DelegateData }> = ({ item }) => {
       src: "/assets/images/3.svg",
     },
     {
+      key: "gc_member_s8",
+      zIndex: 50,
+      tooltipmsg: "Grants Council Member Season 8",
+      src: "/assets/images/3.svg",
+    },
+    {
       key: "gc_member_mm_s5",
       zIndex: 40,
       tooltipmsg: "Grants Council (Milestone & Metrics Sub-committee) Season 5",
@@ -96,6 +102,12 @@ const MembershipBadges: React.FC<{ item: DelegateData }> = ({ item }) => {
       src: "/assets/images/26.png",
     },
     {
+      key: "gc_member_op_s8",
+      zIndex: 40,
+      tooltipmsg: "Grants Council (Operations Sub-committee) Season 8",
+      src: "/assets/images/26.png",
+    },
+    {
       key: "sc_member_s5",
       zIndex: 30,
       tooltipmsg: "Security Council Member Season 5",
@@ -111,6 +123,12 @@ const MembershipBadges: React.FC<{ item: DelegateData }> = ({ item }) => {
       key: "sc_member_s7",
       zIndex: 30,
       tooltipmsg: "Security Council Member Season 7",
+      src: "/assets/images/5.svg",
+    },
+    {
+      key: "sc_member_s8",
+      zIndex: 30,
+      tooltipmsg: "Security Council Member Season 8",
       src: "/assets/images/5.svg",
     },
     {
@@ -144,15 +162,28 @@ const MembershipBadges: React.FC<{ item: DelegateData }> = ({ item }) => {
       src: "/assets/images/7.svg",
     },
     {
+      key: "dab_member_s8",
+      zIndex: 10,
+      tooltipmsg: "Developer Advisory Board Member Season 8",
+      src: "/assets/images/7.svg",
+    },
+    {
       key: "mmc_member_s7",
       zIndex: 10,
       tooltipmsg: "Milestone & Metrics Council Season 7",
       src: "/assets/images/25.png",
     },
+    {
+      key: "mmc_member_s8",
+      zIndex: 10,
+      tooltipmsg: "Milestone & Metrics Council Season 8",
+      src: "/assets/images/25.png",
+    },
   ] as const;
 
   const activeBadges = badges.filter(
-    (badge) => item[badge.key as keyof DelegateData] === 1  );
+    (badge) => item[badge.key as keyof DelegateData] === 1
+  );
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -165,7 +196,11 @@ const MembershipBadges: React.FC<{ item: DelegateData }> = ({ item }) => {
       {activeBadges.map((badge, index) => (
         <Image
           key={badge.key}
-          className={`border border-black rounded-full z-[${badge.zIndex}] cursor-pointer transition-all duration-200 ${index !== 0 ? (isHovered ? "-ml-2" : "-ml-7") : ""} hover:border-2 hover:z-[200]`}
+          className={`border border-black rounded-full z-[${
+            badge.zIndex
+          }] cursor-pointer transition-all duration-200 ${
+            index !== 0 ? (isHovered ? "-ml-2" : "-ml-7") : ""
+          } hover:border-2 hover:z-[200]`}
           src={badge.src}
           height={35}
           width={35}
